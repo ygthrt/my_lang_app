@@ -1,10 +1,10 @@
 {
     "name": "my_lang_app-root",
     "scripts": {
-        "clean": "rm web/public/main.bc.js && dune clean",
-        "build:ocaml": "dune build lib/main.bc.js && cp _build/default/lib/main.bc.js web/public/",
+        "clean": "rm -f web/public/main.bc.js && dune clean",
+        "build:ocaml": "dune build bin/main.bc.js && cp _build/default/bin/main.bc.js web/public/",
         "start:web": "cd web && npm run dev",
-        "build:web": "npm run build:ocaml && cd web && npm run build",
+        "build:web": "cd web && npm run build",
         "start": "npm run build:ocaml && npm run start:web"
     }
 }

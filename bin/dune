@@ -1,4 +1,5 @@
 (executable
- (public_name my_lang_app)
  (name main)
- (libraries my_lang_app))
+ (libraries js_of_ocaml)
+ (preprocess (pps js_of_ocaml-ppx))
+ (modes js))
