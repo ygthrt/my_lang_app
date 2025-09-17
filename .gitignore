@@ -1,0 +1,36 @@
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+node_modules
+dist
+dist-ssr
+*.local
+
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# === Node / React ===
+web/dist/
+web/dist-ssr/
+
+# === OCaml / Dune ===
+_build/
+**/*.cm[iox]          # .cmi, .cmo, .cmx ファイル
+**/*.o                 # OCamlコンパイル中間ファイル
+**/*.a                 # ライブラリ生成物
+**/*.bc.js             # js_of_ocaml 出力（ビルド時のみ。必要に応じて削除）
+**/*.cache/            # 一時キャッシュディレクトリ
