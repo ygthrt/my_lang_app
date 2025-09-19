@@ -8,4 +8,5 @@ let () =
   Js.export_all
     (object%js
        method parse s = Js.string(Print.string_of_exp (parse s))
+       method tcheck s = Js.string(Print.string_of_tau (Tcheck.tcheck "static" [] (parse s) 0))
      end)

@@ -24,18 +24,28 @@
 
   <textarea id="input" rows="4" cols="40">1 + 2</textarea><br>
   <button id="parseButton">Parse</button>
+  <button id="tcheckButton">Type Check</button>
 
   <div id="output"></div>
 
   <script>
     const input = document.getElementById("input");
     const output = document.getElementById("output");
-    const button = document.getElementById("parseButton");
+    const parsebutton = document.getElementById("parseButton");
+    const tcheckbutton = document.getElementById("tcheckButton");
 
-    button.onclick = () => {
+    parsebutton.onclick = () => {
       try {
-        // OCaml 側の parse を呼ぶ
         const result = parse(input.value);
+        output.textContent = JSON.stringify(result, null, 2);
+      } catch (e) {
+        output.textContent = "Error: " + e;
+      }
+    };
+
+    tcheckbutton.onclick = () => {
+      try {
+        const result = tcheck(input.value);
         output.textContent = JSON.stringify(result, null, 2);
       } catch (e) {
         output.textContent = "Error: " + e;
