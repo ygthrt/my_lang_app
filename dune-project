@@ -17,10 +17,13 @@
 
 (package
  (name my_lang_app)
+ (allow_empty)
  (synopsis "A short synopsis")
  (description "A longer description")
  (depends ocaml)
  (tags
   ("add topics" "to describe" your project)))
+
+(using menhir 3.0)
 
 ; See the complete stanza docs at https://dune.readthedocs.io/en/stable/reference/dune-project/index.html

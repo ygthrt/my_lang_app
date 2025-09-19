@@ -29,6 +29,7 @@ web/dist-ssr/
 
 # === OCaml / Dune ===
 _build/
+*.opam
 **/*.cm[iox]          # .cmi, .cmo, .cmx ファイル
 **/*.o                 # OCamlコンパイル中間ファイル
 **/*.a                 # ライブラリ生成物
