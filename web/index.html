@@ -25,6 +25,8 @@
   <textarea id="input" rows="4" cols="40">1 + 2</textarea><br>
   <button id="parseButton">Parse</button>
   <button id="tcheckButton">Type Check</button>
+  <button id="castButton">Cast Insertion(Compile)</button>
+
 
   <div id="output"></div>
 
@@ -33,6 +35,7 @@
     const output = document.getElementById("output");
     const parsebutton = document.getElementById("parseButton");
     const tcheckbutton = document.getElementById("tcheckButton");
+    const castbutton = document.getElementById("castButton");
 
     parsebutton.onclick = () => {
       try {
@@ -51,6 +54,16 @@
         output.textContent = "Error: " + e;
       }
     };
+
+    castbutton.onclick = () => {
+      try {
+        const result = cast(input.value);
+        output.textContent = JSON.stringify(result, null, 2);
+      } catch (e) {
+        output.textContent = "Error: " + e;
+      }
+    };
+
   </script>
   <!-- <div id="root"></div> -->
   <!-- <script type="module" src="/src/main.tsx"></script> -->

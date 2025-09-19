@@ -7,5 +7,5 @@
 
 (library
  (name mylang_lib)
- (modules syntax parser lexer print tcheck)
+ (modules syntax parser lexer print tcheck cast)
  (libraries menhirLib))
