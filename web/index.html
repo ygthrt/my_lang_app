@@ -26,6 +26,7 @@
   <button id="parseButton">Parse</button>
   <button id="tcheckButton">Type Check</button>
   <button id="castButton">Cast Insertion(Compile)</button>
+  <button id="evalButton">Eval</button>
 
 
   <div id="output"></div>
@@ -36,6 +37,7 @@
     const parsebutton = document.getElementById("parseButton");
     const tcheckbutton = document.getElementById("tcheckButton");
     const castbutton = document.getElementById("castButton");
+    const evalbutton = document.getElementById("evalButton");
 
     parsebutton.onclick = () => {
       try {
@@ -58,6 +60,15 @@
     castbutton.onclick = () => {
       try {
         const result = cast(input.value);
+        output.textContent = JSON.stringify(result, null, 2);
+      } catch (e) {
+        output.textContent = "Error: " + e;
+      }
+    };
+
+    evalbutton.onclick = () => {
+      try {
+        const result = eval(input.value);
         output.textContent = JSON.stringify(result, null, 2);
       } catch (e) {
         output.textContent = "Error: " + e;

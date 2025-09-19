@@ -13,6 +13,11 @@ let cast_trans str =
   let _ = Tcheck.tcheck "static" [] exp 0 in
   Cast.cast_trans [] exp 0
 
+let eval str =
+  let exp = parse str in
+  let _ = Tcheck.tcheck "static" [] exp 0 in
+  let cexp = Cast.cast_trans [] exp 0 in
+  Eval.eval cexp [] 0 0
 
 let () =
   Js.export_all
@@ -20,4 +25,5 @@ let () =
        method parse s = Js.string(Print.string_of_exp (parse s))
        method tcheck s = Js.string(Print.string_of_tau (tcheck s))
        method cast s = Js.string(Print.string_of_exp (cast_trans s))
+       method eval s = Js.string(Print.string_of_result (eval s))
      end)
