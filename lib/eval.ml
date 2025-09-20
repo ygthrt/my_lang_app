@@ -22,7 +22,7 @@ let counter = ref 1
 let rec eval e env i n =
   (*print_endline ( "Lv."^string_of_int i ^" Eval:" ^ string_of_exp e);
   print_endline ("Enviornment:" ^ string_of_env env);*)
-  if n > 50 then Error(KillError)
+  if n > 10000 then Error(KillError)
   else
   
   let unbox v =
