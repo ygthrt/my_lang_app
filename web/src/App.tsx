@@ -1,35 +1,37 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useState } from "react";
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [code, setCode] = useState("");
+  const [output, setOutput] = useState("");
+
+  const handleRun = () => {
+    try {
+      const ty = mylang_lib.tcheck(code);
+      const result = mylang_lib.eval(code);
+      setOutput(`Type: ${ty}\nResult: ${result}`);
+    } catch (e) {
+      setOutput(`Error: ${e}`);
+    }
+  };
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+    <div style={{ display: "flex", height: "100vh" }}>
+      {/* 左: 入力欄 */}
+      <div style={{ flex: 1, padding: "1rem" }}>
+        <textarea
+          value={code}
+          onChange={(e) => setCode(e.target.value)}
+          style={{ width: "100%", height: "100%", fontFamily: "monospace" }}
+        />
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
+
+      {/* 右: 出力欄 */}
+      <div style={{ width: "40%", padding: "1rem", background: "#f4f4f4" }}>
+        <button onClick={handleRun}>Run</button>
+        <pre>{output}</pre>
       </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    </div>
+  );
 }
 
-export default App
+export default App;

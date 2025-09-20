@@ -1,83 +1,15 @@
 <!doctype html>
-<html lang="en">
+<html lang="ja">
 
 <head>
   <meta charset="UTF-8" />
-  <link rel="icon" type="image/svg+xml" href="/vite.svg" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Vite + React + TS</title>
-  <script src="/main.bc.js"></script>
-  <style>
-    body {
-      font-family: sans-serif;
-      margin: 20px;
-    }
-
-    #output {
-      margin-top: 10px;
-      white-space: pre-wrap;
-    }
-  </style>
+  <title>Try Mylang</title>
 </head>
 
 <body>
-
-  <textarea id="input" rows="4" cols="40">1 + 2</textarea><br>
-  <button id="parseButton">Parse</button>
-  <button id="tcheckButton">Type Check</button>
-  <button id="castButton">Cast Insertion(Compile)</button>
-  <button id="evalButton">Eval</button>
-
-
-  <div id="output"></div>
-
-  <script>
-    const input = document.getElementById("input");
-    const output = document.getElementById("output");
-    const parsebutton = document.getElementById("parseButton");
-    const tcheckbutton = document.getElementById("tcheckButton");
-    const castbutton = document.getElementById("castButton");
-    const evalbutton = document.getElementById("evalButton");
-
-    parsebutton.onclick = () => {
-      try {
-        const result = parse(input.value);
-        output.textContent = JSON.stringify(result, null, 2);
-      } catch (e) {
-        output.textContent = "Error: " + e;
-      }
-    };
-
-    tcheckbutton.onclick = () => {
-      try {
-        const result = tcheck(input.value);
-        output.textContent = JSON.stringify(result, null, 2);
-      } catch (e) {
-        output.textContent = "Error: " + e;
-      }
-    };
-
-    castbutton.onclick = () => {
-      try {
-        const result = cast(input.value);
-        output.textContent = JSON.stringify(result, null, 2);
-      } catch (e) {
-        output.textContent = "Error: " + e;
-      }
-    };
-
-    evalbutton.onclick = () => {
-      try {
-        const result = eval(input.value);
-        output.textContent = JSON.stringify(result, null, 2);
-      } catch (e) {
-        output.textContent = "Error: " + e;
-      }
-    };
-
-  </script>
-  <!-- <div id="root"></div> -->
-  <!-- <script type="module" src="/src/main.tsx"></script> -->
+  <div id="root"></div>
+  <script src="/main.bc.js"></script>
+  <script type="module" src="/src/main.tsx"></script>
 </body>
 
 </html>
