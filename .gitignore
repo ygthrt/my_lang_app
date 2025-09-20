@@ -33,5 +33,6 @@ _build/
 **/*.cm[iox]          # .cmi, .cmo, .cmx ファイル
 **/*.o                 # OCamlコンパイル中間ファイル
 **/*.a                 # ライブラリ生成物
+web/public/main.bc.js
 **/*.bc.js             # js_of_ocaml 出力（ビルド時のみ。必要に応じて削除）
 **/*.cache/            # 一時キャッシュディレクトリ
