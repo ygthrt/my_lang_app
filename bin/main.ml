@@ -19,11 +19,15 @@ let eval str =
   let cexp = Cast.cast_trans [] exp 0 in
   Eval.eval cexp [] 0 0
 
-let () =
-  Js.export_all
-    (object%js
-       method parse s = Js.string(Print.string_of_exp (parse s))
-       method tcheck s = Js.string(Print.string_of_tau (tcheck s))
-       method cast s = Js.string(Print.string_of_exp (cast_trans s))
-       method eval s = Js.string(Print.string_of_result (eval s))
-     end)
+let mylang_lib = 
+  (object%js
+    method parse s = Js.string(Print.string_of_exp (parse s))
+    method tcheck s = Js.string(Print.string_of_tau (tcheck s))
+    method cast s = Js.string(Print.string_of_exp (cast_trans s))
+    method eval s = Js.string(Print.string_of_result (eval s))
+  end)
+
+
+let () = Js.export_all mylang_lib
+
+let () = Js.Unsafe.set Js.Unsafe.global (Js.string "mylang_lib") mylang_lib
