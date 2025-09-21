@@ -1,7 +1,8 @@
+import './App.css'
 import { useState } from "react";
 
 function App() {
-  const [code, setCode] = useState("");
+  const [code, setCode] = useState("1 + 1");
   const [output, setOutput] = useState("");
 
   const handleRun = () => {
@@ -15,18 +16,16 @@ function App() {
   };
 
   return (
-    <div style={{ display: "flex", height: "100vh" }}>
-      {/* 左: 入力欄 */}
-      <div style={{ flex: 1, padding: "1rem" }}>
+    <div className="app">
+      <div className="input">
         <textarea
           value={code}
           onChange={(e) => setCode(e.target.value)}
-          style={{ width: "100%", height: "100%", fontFamily: "monospace" }}
+          className="code"
         />
       </div>
 
-      {/* 右: 出力欄 */}
-      <div style={{ width: "40%", padding: "1rem", background: "#f4f4f4" }}>
+      <div className="output" >
         <button onClick={handleRun}>Run</button>
         <pre>{output}</pre>
       </div>
