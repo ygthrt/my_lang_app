@@ -2,7 +2,7 @@ import './App.css'
 import { useState } from "react";
 
 function App() {
-  const [code, setCode] = useState("1 + 1");
+  const [code, setCode] = useState("let rec staged_fact : (int-->int code) x:int = \n  if x = 1 then .<1>. \n  else .< x * .~(staged_fact (x-1))>.\nin\nstaged_fact 5");
   const [output, setOutput] = useState("");
 
   const handleRun = () => {
