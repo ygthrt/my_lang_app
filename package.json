@@ -6,5 +6,6 @@
         "start:web": "cd web && npm run dev",
         "build:web": "cd web && npm run build",
         "start": "npm run build:ocaml && npm run start:web"
+        "build": "npm run build:ocaml && npm run build:web"
     }
 }
