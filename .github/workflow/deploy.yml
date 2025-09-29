@@ -1,0 +1,45 @@
+name: Build & Deploy to Vercel
+
+# main ブランチに push されたときに実行
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1. リポジトリをチェックアウト
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # 2. Node.js のセットアップ
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      # 3. OCaml 環境をセットアップ
+      - name: Setup OCaml
+        uses: ocaml/setup-ocaml@v3
+        with:
+          ocaml-compiler: 5.2.0  # 任意のバージョン
+
+      # 4. npm install
+      - name: Install Node.js dependencies
+        run: cd web && npm install
+
+      # 5. opam で dune と js_of_ocaml をインストール
+      - name: Install OCaml dependencies
+        run: |
+          opam install dune js_of_ocaml js_of_ocaml-ppx menhir --yes
+
+      # 6. ビルド（dune + vite）
+      - name: Build project
+        run: npm run build
+
+      # 7. Vercel にデプロイ
+      - name: Deploy to Vercel
+        run: npx vercel --prod --token=${{ secrets.VERCEL_TOKEN }}
