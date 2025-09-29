@@ -1,6 +1,7 @@
+# .github/workflow/deploy.yml
+
 name: Build & Deploy to Vercel
 
-# main ブランチに push されたときに実行
 on:
   push:
     branches:
@@ -25,7 +26,7 @@ jobs:
       - name: Setup OCaml
         uses: ocaml/setup-ocaml@v3
         with:
-          ocaml-compiler: 5.2.0  # 任意のバージョン
+          ocaml-compiler: 5.2.0
 
       # 4. npm install
       - name: Install Node.js dependencies
@@ -42,7 +43,13 @@ jobs:
         run: |
           eval $(opam env)
           npm run build
+      
+      # 7. Vercelのデプロイ形式に成果物を配置 ⭐ここを追加⭐
+      - name: Prepare for Vercel deployment
+        run: |
+          mkdir -p .vercel/output/static
+          cp -r web/dist/* .vercel/output/static/
 
-      # 7. Vercel にデプロイ
+      # 8. Vercel にデプロイ
       - name: Deploy to Vercel
         run: npx vercel --prod --token=${{ secrets.VERCEL_TOKEN }} --prebuilt
