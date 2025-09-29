@@ -5,7 +5,7 @@
         "build:ocaml": "dune build bin/main.bc.js && cp _build/default/bin/main.bc.js web/public/",
         "start:web": "cd web && npm run dev",
         "build:web": "cd web && npm run build",
-        "start": "npm run build:ocaml && npm run start:web"
+        "start": "npm run build:ocaml && npm run start:web",
         "build": "npm run build:ocaml && npm run build:web"
     }
 }
