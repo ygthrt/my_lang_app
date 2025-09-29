@@ -44,7 +44,7 @@ jobs:
           eval $(opam env)
           npm run build
       
-      # 7. Vercelのデプロイ形式に成果物を配置 ⭐ここを追加⭐
+      # 7. Vercelのデプロイ形式に成果物を配置 
       - name: Prepare for Vercel deployment
         run: |
           mkdir -p .vercel/output/static
@@ -52,4 +52,4 @@ jobs:
 
       # 8. Vercel にデプロイ
       - name: Deploy to Vercel
-        run: npx vercel --prod --token=${{ secrets.VERCEL_TOKEN }} --prebuilt
+        run: npx vercel --prod --token=${{ secrets.VERCEL_TOKEN }} --prebuilt --yes
