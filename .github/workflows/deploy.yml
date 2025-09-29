@@ -44,11 +44,12 @@ jobs:
           eval $(opam env)
           npm run build
       
-      # 7. Vercelのデプロイ形式に成果物を配置 
+      # 7. Vercelのデプロイ形式に成果物を配置
       - name: Prepare for Vercel deployment
         run: |
           mkdir -p .vercel/output/static
           cp -r web/dist/* .vercel/output/static/
+          echo '{ "version": 3, "routes": [ { "handle": "filesystem" }, { "src": "/.*", "dest": "/index.html" } ] }' > .vercel/output/config.json
 
       # 8. Vercel にデプロイ
       - name: Deploy to Vercel
