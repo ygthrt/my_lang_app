@@ -23,3 +23,8 @@
     background: #f4f4f4;
     font-size: large;
 }
+
+.tool {
+    display: flex;
+    justify-content: space-around;
+}

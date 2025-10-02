@@ -1,33 +1,23 @@
 import './App.css'
 import { useState } from "react";
+import Editor from './Editor';
+import Outputs from './Outputs';
+import Toolbar from './Toolbar';
 
 function App() {
-  const [code, setCode] = useState("let rec staged_fact : (int-->int code) x:int = \n  if x = 1 then .<1>. \n  else .< x * .~(staged_fact (x-1))>.\nin\nstaged_fact 5");
+  const [code, setCode] = useState("");
   const [output, setOutput] = useState("");
 
-  const handleRun = () => {
-    try {
-      const ty = mylang_lib.tcheck(code);
-      const result = mylang_lib.eval(code);
-      setOutput(`Type: ${ty}\nResult: ${result}`);
-    } catch (e) {
-      setOutput(`Error: ${e}`);
-    }
-  };
-
   return (
-    <div className="app">
-      <div className="input">
-        <textarea
-          value={code}
-          onChange={(e) => setCode(e.target.value)}
-          className="code"
-        />
-      </div>
-
-      <div className="output" >
-        <button onClick={handleRun}>Run</button>
-        <pre>{output}</pre>
+    <div>
+      <div className="app">
+        <div className="input">
+          <Editor code={code} changeEditor={setCode} />
+        </div>
+        <div className='output'>
+          <Toolbar code={code} onOutput={setOutput} />
+          <Outputs output={output} />
+        </div>
       </div>
     </div>
   );
