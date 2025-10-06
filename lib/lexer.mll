@@ -3,6 +3,8 @@
 
 {
 open Parser
+
+let comment_depth = ref 0
 }
 
 let space = [' ' '\t' '\n' '\r']
@@ -11,6 +13,10 @@ let alpha = ['A'-'Z' 'a'-'z' '_']
 let alnum = digit | alpha | '\''
 
 rule token = parse
+  | "(*"
+    { comment_depth := 1;
+      comment lexbuf
+    }
   (* 整数定数 *)
   | digit+
     { let str = Lexing.lexeme lexbuf in
@@ -95,3 +101,19 @@ rule token = parse
       in
       failwith message
     }
+and comment = parse
+  | "*)"
+    { decr comment_depth;
+      if !comment_depth = 0 then
+        token lexbuf
+      else
+        comment lexbuf
+    }
+  | "(*"
+    { incr comment_depth;
+      comment lexbuf
+    }
+  | eof
+    { failwith "Unterminated comment" }
+  | _
+    { comment lexbuf }

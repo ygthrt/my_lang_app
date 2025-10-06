@@ -5,7 +5,7 @@ import Outputs from './Outputs';
 import Toolbar from './Toolbar';
 
 function App() {
-  const [code, setCode] = useState("");
+  const [code, setCode] = useState("(* Write your code below *)\n\n1 + 2 + 3");
   const [output, setOutput] = useState("");
 
   return (
