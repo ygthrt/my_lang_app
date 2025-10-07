@@ -492,5 +492,27 @@ let rec eval e env i n =
         | Exp(exp1) -> Exp(IsType(tau, exp1))
       end
 
+  | Seq(e1, e2) ->
+    let v1 = eval e1 env i (n+1) in
+    begin
+      match v1 with
+      | Error(ep) -> Error(ep)
+      | _ -> eval e2 env i (n+1)
+    end
+
 
   | _ -> failwith "unknown expression in eval"
+
+
+let eval_phrase env phrase =
+  match phrase with
+  | Expression(e) -> (env , Result(eval e env 0 0))
+  
+  | LetDefinition(x, _, e) ->
+    let result = eval e env 0 0 in
+    match result with
+    | Exp(_) ->  
+      let new_env = (x, result, 0) :: env in
+      (new_env, LetBinding(x, result))
+    | Error(_) ->
+      (env , Result(result))

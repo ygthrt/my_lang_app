@@ -50,6 +50,8 @@ rule token = parse
   | "-->"     { TARROW}
   | "->"      { ARROW }
   | '|'       { VBAR }
+  | ";;"      { DSEMI }
+  | ';'       { SEMI }
 
   (*Gradual_Typing*)
   | ":"       { COL }

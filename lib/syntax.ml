@@ -46,6 +46,8 @@ type exp =
 | Let of string * tau * exp * exp   (* let x :tau = e in e *)
 | LetRec of string * tau * string * tau * exp * exp   (* let　rec f :tau x :tau = e in e *)
 
+| Seq of exp * exp      (* e; e *)
+
 | IsType of tau * exp   (* is_type(tau, e) *)
 
 | FunVal of string * tau * exp * env
@@ -78,3 +80,11 @@ env = (string * result * level) list
 
 and
 tyenv = (string * tau * level) list
+
+type toplevel_phrase =
+| Expression of exp         (* expression *)
+| LetDefinition of string * tau * exp (* let x :int = 10;; *)
+
+type toplevel_result =
+| Result of result
+| LetBinding of string * result

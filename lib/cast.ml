@@ -285,6 +285,11 @@ let rec cast_trans te e i =
   | IsType(tau, e1) ->
     let ce1 = cast_trans te e1 i in
     IsType(tau, ce1)
+
+  | Seq(e1,e2) ->
+    let ce1 = cast_trans te e1 i in
+    let ce2 = cast_trans te e2 i in
+    Seq(ce1,ce2)
   
   | FunVal(_) -> failwith "worng expression in cast_trans"
   
@@ -294,3 +299,12 @@ let rec cast_trans te e i =
 
   | _ -> failwith "unknown expression in cast_trans"
 
+
+let cast_trans_phrase env phrase =
+  match phrase with
+  | Expression(e) -> (env , Expression(cast_trans env e 0))
+  
+  | LetDefinition(x, tau, e) ->
+    let new_env = (x, tau, 0) :: env in
+    let ce = cast_trans env e 0 in
+    (new_env, LetDefinition(x, tau, ce))

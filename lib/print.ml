@@ -19,7 +19,7 @@ open Syntax
     | Brackets e -> ".<" ^ string_of_exp e ^ ">."
     | Escape e -> ".~" ^ string_of_exp e
     | Cast (tau, e) ->
-      "〈" ^ string_of_tau tau ^ " 〉" ^ string_of_exp e
+      "〈" ^ string_of_tau tau ^ "〉" ^ string_of_exp e
     | If (e1, e2, e3) -> 
         "if " ^ string_of_exp e1 ^ " then " ^ string_of_exp e2 ^ " else " ^ string_of_exp e3
     | Let (x, tau, e1, e2) ->
@@ -83,6 +83,9 @@ open Syntax
     | IsType(tau, e1) ->
       "is_type(" ^ string_of_tau tau ^ ", " ^ string_of_exp e1 ^ ")"
 
+    | Seq (e1, e2) ->
+      string_of_exp e1 ^ ";\n" ^ string_of_exp e2
+  
     | _ -> failwith "unknown expression in print"
 
   and string_of_tau tau =
@@ -123,6 +126,34 @@ let string_of_tenv tyenv =
   in
   "[" ^ (String.concat "; " (List.map string_of_binding tyenv)) ^ "]"
 
+let string_of_toplevel phrase =
+  match phrase with
+  | Expression(e) ->
+    string_of_exp(e)
+  | LetDefinition(x,tau,e) ->
+    if tau = TDynamic then
+      "let " ^ x ^ " = " ^ string_of_exp e
+    else "let " ^ x ^ " : " ^ string_of_tau tau ^ " = " ^ string_of_exp e
+
+let rec string_of_program phrase_list =
+  match phrase_list with
+  | [] -> ""
+  | h :: tl -> string_of_toplevel h ^ "\n" ^ string_of_program tl 
+
+let rec string_of_tau_list tau_list =
+  match tau_list with
+  | [] -> ""
+  | h :: tl -> (string_of_tau h) ^ ";;\n" ^ (string_of_tau_list tl)
+
+let string_of_toplevel_result_and_tau toplevel_result tau =
+  match toplevel_result with
+  | Result(res) -> "- : "^ (string_of_tau tau) ^" = " ^ (string_of_result res)
+  | LetBinding(x, res) -> "val "^ x ^ " : "^ (string_of_tau tau) ^" = " ^ (string_of_result res)
+
+let rec string_of_eval_result (toplevel_result_list ,tau_list) =
+  match (toplevel_result_list, tau_list) with 
+  | (h1 :: tl1 , h2 :: tl2) ->  (string_of_toplevel_result_and_tau h1 h2) ^"\n"^ string_of_eval_result (tl1, tl2) 
+  | _ -> ""
 
 (* print_result : tau -> result -> unit() *)
 let print_result tau result =

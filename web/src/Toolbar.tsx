@@ -3,9 +3,8 @@ export default function Toolbar({ code, onOutput }: { code: string, onOutput: (v
 
     const handleEval = () => {
         try {
-            const ty = mylang_lib.tcheck(code);
             const result = mylang_lib.eval(code);
-            onOutput(`Type: ${ty}   Result: ${result}`);
+            onOutput(`Result:\n\n${result}`);
         } catch (e) {
             onOutput(`Error: ${e}`);
         }
@@ -14,7 +13,7 @@ export default function Toolbar({ code, onOutput }: { code: string, onOutput: (v
     const handleTcheck = () => {
         try {
             const ty = mylang_lib.tcheck(code);
-            onOutput(`Type: ${ty}`);
+            onOutput(`Type:\n\n${ty}`);
         } catch (e) {
             onOutput(`Error: ${e}`);
         }

@@ -179,6 +179,10 @@ let rec tcheck flag te e i =
       | TDynamic -> sig2
       | _ -> failwith "type error in LetRec"
     end
+
+  | Seq(e1, e2) ->
+    let _ = tcheck flag te e1 i in
+    tcheck flag te e2 i
   
   | IsType(_, e1) ->
     let _ = tcheck flag te e1 i in TAtom(TBool)
@@ -261,3 +265,17 @@ and
         | Exp(exp) -> (x, tcheck "static" [] exp j, j) :: make_tenv tl
         | Error(_) -> failwith "error in env"
       end
+
+
+let tcheck_phrase env phrase =
+  match phrase with
+  | Expression(e) ->
+      let tau = tcheck "static" env e 0 in
+      (env,  tau) (* 環境は変わらない *)
+
+  | LetDefinition(x, tau, e) ->
+      let tau1 = tcheck "static" env e 0 in
+      if is_consist tau tau1 then
+        let new_env = (x, tau, 0) :: env in
+        (new_env, tau)
+      else failwith "type error in LetDefinition"

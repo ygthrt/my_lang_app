@@ -33,6 +33,8 @@ open Syntax
 %token ARROW    // "->"
 %token TARROW   // "-->"
 %token VBAR     // "|"
+%token DSEMI  // ";;"
+%token SEMI  // ";"
 
 //Gradual_Typing
 %token COL      // ":"
@@ -63,7 +65,7 @@ open Syntax
 %token EOF 
 
 // 演算子優先順位 (優先度の低いものほど先)
-%nonassoc IN ELSE ARROW
+%nonassoc IN ELSE ARROW SEMI
 %right TARROW
 %left EQUAL GREATER LESS
 %left PLUS MINUS
@@ -75,8 +77,9 @@ open Syntax
 %left VAR INT TRUE FALSE LBRACKET LPAREN FUNC CAST SUCC
 
 
-%start main
-%type <Syntax.exp> main
+%start program
+%type <Syntax.toplevel_phrase list> program
+%type <Syntax.toplevel_phrase> toplevel_phrase
 %type <Syntax.exp> exp
 %type <Syntax.exp> arg_exp
 %type <Syntax.atom> atom
@@ -86,10 +89,26 @@ open Syntax
 %%
 
 // 開始記号
-main:
-  | exp EOF
-    { $1 }
-;
+program:
+  | toplevel_phrase EOF
+    { [$1] }
+  | toplevel_phrase DSEMI EOF
+    { [$1] }  
+  | toplevel_phrase DSEMI program
+    { $1 :: $3 }
+
+
+toplevel_phrase:
+  // let x :int = 1
+  | LET VAR COL tau EQUAL exp
+    { LetDefinition ($2, $4, $6) }
+  // let x = 1
+  | LET VAR EQUAL exp
+    { LetDefinition ($2, TDynamic, $4) }
+  
+  // expression
+  | exp
+    { Expression ($1) }
 
 //型
 atom:
@@ -240,6 +259,9 @@ exp:
   
   | TCASE exp WITH tcases_rev END
     { TCase ($2, List.rev $4) }
+
+  | exp SEMI exp
+    { Seq ($1, $3) }
 
   | error
     { 
